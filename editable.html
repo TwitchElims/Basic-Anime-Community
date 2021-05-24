@@ -1,0 +1,156 @@
+<!DOCTYPE html><html class="" lang=""><head><script type="text/javascript" class="silex-json-styles" data-silex-static="">
+    window.silex = window.silex || {}
+    window.silex.data = {"site":{"width":1200},"pages":[{"id":"page-page-1","displayName":"Page 1","link":{"linkType":"LinkTypePage","href":"#!page-page-1"},"canDelete":true,"canProperties":true,"canMove":true,"canRename":true,"opened":false}]}</script>
+    <meta charset="UTF-8">
+    <!-- generator meta tag -->
+    <!-- leave this for stats and Silex version check -->
+    <meta name="generator" content="Silex v2.2.12">
+    <!-- End of generator meta tag -->
+    <script type="text/javascript" src="https://editor.silex.me/static/2.11/jquery.js" data-silex-static=""></script>
+    <script type="text/javascript" src="https://editor.silex.me/static/2.11/jquery-ui.js" data-silex-static="" data-silex-remove-publish=""></script>
+    <script type="text/javascript" src="https://editor.silex.me/static/2.11/pageable.js" data-silex-static="" data-silex-remove-publish=""></script>
+    <script type="text/javascript" src="https://editor.silex.me/static/2.11/front-end.js" data-silex-static=""></script>
+    <link rel="stylesheet" href="https://editor.silex.me/static/2.11/normalize.css" data-silex-static="">
+    <link rel="stylesheet" href="https://editor.silex.me/static/2.11/front-end.css" data-silex-static="">
+
+    <style type="text/css" class="silex-style"></style>
+    <script type="text/javascript" class="silex-script"></script>
+    <style class="silex-inline-styles" type="text/css">.body-initial {background-color: rgba(255,255,255,1); position: static;}.silex-id-1478366444112-1 {background-color: transparent; position: static; margin-top: -1px;}.silex-id-1478366444112-0 {background-color: transparent; min-height: 100px; position: relative; margin-left: auto; margin-right: auto;}.silex-id-1474394621033-3 {position: static; margin-top: -1px;}.silex-id-1474394621032-2 {background-color: transparent; min-height: 600px; position: relative; margin-left: auto; margin-right: auto;}.silex-id-1478366450713-3 {background-color: transparent; position: static; margin-top: -1px;}.silex-id-1478366450713-2 {background-color: transparent; min-height: 100px; position: relative; margin-left: auto; margin-right: auto;}.silex-id-1442914737143-3 {width: 241px; top: 26px; left: 494px; min-height: 51px; position: absolute;}@media only screen and (max-width: 480px) {}</style>
+    <title></title>
+    
+
+    
+<style class="silex-prodotype-style" type="text/css" data-style-id="all-style">.text-element > .silex-element-content {font-family: 'Roboto', sans-serif;}</style><link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" class="silex-custom-font"><meta name="viewport" content="width=device-width, initial-scale=1"><style type="text/css" class="silex-style-settings">.website-width {width: 1200px;}@media (min-width: 481px) {.silex-editor {min-width: 1400px;}}</style><!-- Silex HEAD tag do not remove --><html> <body>
+	<canvas style="margin-top:30px;display: block ;padding-left: 0; padding-right: 0; margin-left: auto; margin-right: auto;" id="myCanvas" width="520" height="520"></canvas>
+	<br>
+	<marquee>Mission&#127894;&#65039;Helix</marquee>
+	<marquee><i>Coded this game today : ADD YOUR NAME HERE </i></marquee>
+	<p>Share your game screenshot on Linkedin after session with hashtags <b>#LearnInspireGrow #AlienWarGame. Also add your name in Marquee.</b></p>
+	<script>
+		// Made with love by Rishabh Jain !
+		//step 1
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+
+		function drawObject(object){
+			//Find current index of image to be used.
+			var currentImageIndex = counter%object.images.length;
+			//Access image from array of images
+			var currentImage = object.images[currentImageIndex];
+			//Draw of canvas
+			ctx.drawImage(currentImage,object.x,object.y,object.width,object.height);
+		}
+
+				var alienImages = [];
+		var alienImageUrls = ["https://i.imgur.com/tvJOu59.png","https://i.imgur.com/e1pkJRF.png","https://i.imgur.com/aRumf1r.png","https://i.imgur.com/jjOPpWL.png","https://i.imgur.com/hsdEpsM.png","https://i.imgur.com/u5eNyl8.png"];
+		 
+		for( var i=0; i<alienImageUrls.length ; i++ ){
+			var image = new Image();
+			image.src = alienImageUrls[i];
+			alienImages.push(image);
+		}
+
+		var alien = {};
+		alien.images = alienImages ;
+		alien.width = 100;
+		alien.height = 100;
+		alien.x=300;
+		alien.y=300;
+		alien.speed = 7;
+
+		var keyMap = {};
+		keyMap[38]	= { name :"up",		active:false , onactive: function() { alien.y-=alien.speed; } };
+		keyMap[40]	= { name :"down",	active:false , onactive: function() { alien.y+=alien.speed; } };
+		keyMap[37]	= { name :"left",	active:false , onactive: function() { alien.x-=alien.speed; } };
+		keyMap[39]	= { name :"right",	active:false , onactive: function() { alien.x+=alien.speed; } };
+		keyMap[32]	= { name :"space", 	active:false , onactive: function() { fireBullet(); } };
+
+		//step 2
+		function handleKey(event, status) {
+			var currentController = keyMap[event.keyCode];
+		    console.log(status);
+			if(!!currentController){
+				currentController.active = status;
+			}
+		}
+
+		document.addEventListener("keydown", function(event) {
+		    handleKey(event, true);
+		});
+
+		document.addEventListener("keyup", function(event) {
+		    handleKey(event, false);
+		});
+
+		var counter = 0;
+		function update(){
+			counter++;
+			
+			//Clear all backgroud to black
+			ctx.fillStyle = "#000000";
+			ctx.fillRect(0, 0, 520, 520);
+
+			//Hovering effect
+			alien.x += -2+Math.random()*4;
+			alien.y += -2+Math.random()*4;
+
+			for(var key in keyMap){
+				var currentController = keyMap[key];
+				if( currentController.active){
+					currentController.onactive();
+				}
+				console.log(JSON.stringify(keyMap))
+			}
+
+			drawObject(alien);
+		}
+
+		setInterval(update,50);
+
+	</script>
+	
+</body>
+</html><!-- End of Silex HEAD tag do not remove --></head>
+
+<body data-silex-id="body-initial" class="body-initial all-style enable-mobile prevent-resizable prevent-selectable editable-style silex-runtime" data-silex-type="container-element" style="">
+    
+
+
+
+
+
+
+
+
+
+    <section data-silex-type="container-element" class="container-element editable-style silex-id-1478366444112-1 section-element prevent-resizable" data-silex-id="silex-id-1478366444112-1" style="">
+        <div data-silex-type="container-element" class="editable-style silex-element-content silex-id-1478366444112-0 container-element website-width" data-silex-id="silex-id-1478366444112-0"></div>
+    </section>
+    <section data-silex-type="container-element" class="container-element editable-style silex-id-1474394621033-3 section-element prevent-resizable" data-silex-id="silex-id-1474394621033-3" style="">
+        <div data-silex-type="container-element" class="editable-style silex-element-content silex-id-1474394621032-2 container-element website-width selected" data-silex-id="silex-id-1474394621032-2"></div>
+    </section>
+    <section data-silex-type="container-element" class="container-element editable-style silex-id-1478366450713-3 section-element prevent-resizable" data-silex-id="silex-id-1478366450713-3" style="">
+        <div data-silex-type="container-element" class="editable-style silex-element-content silex-id-1478366450713-2 container-element website-width" data-silex-id="silex-id-1478366450713-2">
+
+            <div data-silex-id="silex-id-1442914737143-3" class="editable-style silex-id-1442914737143-3 text-element" data-silex-type="text-element" style="">
+                <div class="silex-element-content normal"><p>Powered by <a href="https://www.silex.me/" target="_blank" title="Silex website builder,  free and open source" linktype="LinkTypeExternal">Silex website builder</a></p></div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
